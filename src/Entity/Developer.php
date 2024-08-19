@@ -25,6 +25,10 @@ class Developer
     #[ORM\Column(length: 255)]
     private ?string $phoneNumber = null;
 
+    #[ORM\ManyToOne(targetEntity: Project::class, inversedBy: 'developers')]
+    #[ORM\JoinColumn(nullable: true)]
+    private ?Project $project = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -74,6 +78,18 @@ class Developer
     public function setPhoneNumber(string $phoneNumber): static
     {
         $this->phoneNumber = $phoneNumber;
+
+        return $this;
+    }
+
+    public function getProject(): ?Project
+    {
+        return $this->project;
+    }
+
+    public function setProject(?Project $project): self
+    {
+        $this->project = $project;
 
         return $this;
     }

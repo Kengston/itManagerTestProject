@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ProjectRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ProjectRepository::class)]
@@ -18,6 +20,14 @@ class Project
 
     #[ORM\Column(length: 255)]
     private ?string $client = null;
+
+    #[ORM\OneToMany(mappedBy: 'project', targetEntity: Developer::class)]
+    private Collection $developers;
+
+    public function __construct()
+    {
+        $this->developers = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -44,6 +54,32 @@ class Project
     public function setClient(string $client): static
     {
         $this->client = $client;
+
+        return $this;
+    }
+
+    public function getDevelopers(): Collection
+    {
+        return $this->developers;
+    }
+
+    public function addDeveloper(Developer $developer): self
+    {
+        if (!$this->developers->contains($developer)) {
+            $this->developers[] = $developer;
+            $developer->setProject($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDeveloper(Developer $developer): self
+    {
+        if ($this->developers->removeElement($developer)) {
+            if ($developer->getProject() === $this) {
+                $developer->setProject(null);
+            }
+        }
 
         return $this;
     }
