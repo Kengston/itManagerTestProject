@@ -2,6 +2,9 @@
 
 namespace App\Entity;
 
+use Symfony\Component\Validator\Constraints as Assert;
+use App\Validator\ProjectExists;
+use App\Entity\Project;
 use App\Repository\DeveloperRepository;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -14,19 +17,29 @@ class Developer
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank]
+    #[Assert\Length(max: 255)]
     private ?string $fullName = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank]
+    #[Assert\Length(max: 255)]
     private ?string $jobTitle = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank]
+    #[Assert\Length(max: 255)]
+    #[Assert\Email]
     private ?string $email = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank]
+    #[Assert\Length(max: 255)]
     private ?string $phoneNumber = null;
 
     #[ORM\ManyToOne(targetEntity: Project::class, inversedBy: 'developers')]
     #[ORM\JoinColumn(nullable: true)]
+    #[ProjectExists]
     private ?Project $project = null;
 
     public function getId(): ?int
