@@ -1,6 +1,10 @@
 
 services:
 ###> doctrine/doctrine-bundle ###
+  php:
+    build: .  # This will make Docker look for a Dockerfile in the current directory
+    volumes:
+      - .:/var/www/html
   database:
     image: postgres:${POSTGRES_VERSION:-16}-alpine
     environment:
