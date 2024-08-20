@@ -26,7 +26,7 @@ class Project
     #[Assert\Length(max: 255)]
     private ?string $client = null;
 
-    #[ORM\OneToMany(mappedBy: 'project', targetEntity: Developer::class)]
+    #[ORM\OneToMany(targetEntity: Developer::class, mappedBy: 'project')]
     private Collection $developers;
 
     public function __construct()
