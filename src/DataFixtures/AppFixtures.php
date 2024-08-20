@@ -2,31 +2,24 @@
 
 namespace App\DataFixtures;
 
+use App\Service\DeveloperService;
+use App\Service\ProjectService;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
-use App\Entity\Developer;
-use App\Entity\Project;
 
 class AppFixtures extends Fixture
 {
+    public function __construct(
+        private ProjectService $projectService,
+        private DeveloperService $developerService)
+    { }
+
     public function load(ObjectManager $manager): void
     {
         // $product = new Product();
         // $manager->persist($product);
+        $this->projectService->createProject('Zakaz', 'McDonalds');
+        $this->developerService->hireDeveloper('John', 'Cashier', 'john11@gmail.com', '+88005553535');
 
-        $project = new Project();
-        $project->setName('TestProject');
-        $project->setClient('Test Client');
-        $manager->persist($project);
-
-        $developer = new Developer();
-        $developer->setFullName('Test Developer');
-        $developer->setJobTitle('Test Job Title');
-        $developer->setEmail('test@gmail.com');
-        $developer->setPhoneNumber('123-456-7890');
-
-        $manager->persist($developer);
-
-        $manager->flush();
     }
 }

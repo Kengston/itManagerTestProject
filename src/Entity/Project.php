@@ -26,8 +26,12 @@ class Project
     #[Assert\Length(max: 255)]
     private ?string $client = null;
 
+
     #[ORM\OneToMany(targetEntity: Developer::class, mappedBy: 'project')]
     private Collection $developers;
+
+    #[ORM\Column(type: "boolean", options: ["default" => false])]
+    private ?bool $isClosed = false;
 
     public function __construct()
     {
@@ -85,6 +89,18 @@ class Project
                 $developer->setProject(null);
             }
         }
+
+        return $this;
+    }
+
+    public function isClosed(): ?bool
+    {
+        return $this->isClosed;
+    }
+
+    public function setIsClosed(bool $isClosed): static
+    {
+        $this->isClosed = $isClosed;
 
         return $this;
     }
