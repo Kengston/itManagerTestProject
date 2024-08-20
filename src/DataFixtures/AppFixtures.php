@@ -18,8 +18,9 @@ class AppFixtures extends Fixture
     {
         // $product = new Product();
         // $manager->persist($product);
-        $this->projectService->createProject('Zakaz', 'McDonalds');
-        $this->developerService->hireDeveloper('John', 'Cashier', 'john11@gmail.com', '+88005553535');
+        $project = $this->projectService->createProject('Zakaz', 'McDonalds');
+        $developer = $this->developerService->hireDeveloper('John', 'Cashier', 'john11@gmail.com', '+88005553535');
 
+        $this->developerService->assignProject($developer, $project);
     }
 }

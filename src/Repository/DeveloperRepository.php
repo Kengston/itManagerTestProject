@@ -16,6 +16,16 @@ class DeveloperRepository extends ServiceEntityRepository
         parent::__construct($registry, Developer::class);
     }
 
+    public function getNumberOfDevelopers(): int
+    {
+        return $this->createQueryBuilder('d')
+            ->select('count(d.id)')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
+
+
+
 //    /**
 //     * @return Developer[] Returns an array of Developer objects
 //     */
